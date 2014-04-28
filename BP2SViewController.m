@@ -8,7 +8,8 @@
 
 #import "BP2SViewController.h"
 
-@interface BP2SViewController (){
+
+@interface BP2SViewController ()<UIGestureRecognizerDelegate>{
     NSArray* categoryArray;
     
     NSArray* locationsArray;
@@ -60,8 +61,27 @@
     chosenFilters = [NSMutableArray new];
     
     
+    
+    
     [super viewDidLoad];
 	
+    
+    //Gesture Left<-Right
+    UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(SwipeRecognizer:)];
+    recognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+    recognizer.numberOfTouchesRequired = 1;
+    recognizer.delegate = self;
+    [self.view addGestureRecognizer:recognizer];
+    
+    //Gesture Left->Right
+    UISwipeGestureRecognizer *recognizer2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(SwipeRecognizer:)];
+    recognizer2.direction = UISwipeGestureRecognizerDirectionRight;
+    recognizer2.numberOfTouchesRequired = 1;
+    recognizer2.delegate = self;
+    [self.view addGestureRecognizer:recognizer2];
+
+
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -183,6 +203,53 @@
 }
 
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if ([touch.view isKindOfClass:[UIView class]])
+    {
+        return YES;
+    }
+    return NO;
+}
+
+- (void) SwipeRecognizer:(UISwipeGestureRecognizer *)sender {
+    
+    if ( sender.direction == UISwipeGestureRecognizerDirectionLeft ){
+        
+        //NSLog(@" *** WRITE CODE FOR SWIPE LEFT ***");
+        CGRect tableView1TopFrame = self.tableView1.frame;
+        //tableView1TopFrame.origin.x = tableView1TopFrame.origin.x-tableView1TopFrame.size.width;
+        tableView1TopFrame.origin.x = 796;
+        
+        
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:0.5];
+        [UIView setAnimationDelay:0.3];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+        
+        self.tableView1.frame = tableView1TopFrame;
+        
+        [UIView commitAnimations];
+        
+    }
+    if ( sender.direction == UISwipeGestureRecognizerDirectionRight ){
+        
+        //NSLog(@" *** WRITE CODE FOR SWIPE LEFT ***");
+        CGRect tableView1TopFrame = self.tableView1.frame;
+        //tableView1TopFrame.origin.x = tableView1TopFrame.origin.x+tableView1TopFrame.size.width;
+        tableView1TopFrame.origin.x = 1025;
+        
+        
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:0.5];
+        [UIView setAnimationDelay:0.3];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+        
+        self.tableView1.frame = tableView1TopFrame;
+        
+        [UIView commitAnimations];
+        
+    }
+}
 
 
 
